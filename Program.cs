@@ -1,70 +1,107 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        //WorkWithStrings();
-        void WorkWithStrings ()
+        List<string> tasks = new List<string>();
+        string input;
+        do
         {
-            List<string> names = ["jane", "kim", "moses"];
-            names.Sort();
-            foreach (var name in names)
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("====================================");
+            Console.WriteLine("            To-Do List             ");
+            Console.WriteLine("====================================");
+            Console.ResetColor();
+            Console.WriteLine("1. Add task");
+            Console.WriteLine("2. Remove task");
+            Console.WriteLine("3. View tasks");
+            Console.WriteLine("4. Exit");
+            Console.Write("Choose an option: ");
+            input = Console.ReadLine();
+
+            switch (input)
             {
-                Console.WriteLine($"Hello {name.ToUpper()}");
+                case "1":
+                    AddTask(tasks);
+                    break;
+                case "2":
+                    RemoveTask(tasks);
+                    break;
+                case "3":
+                    ViewTasks(tasks);
+                    break;
+                case "4":
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Exiting To-Do List. Goodbye!");
+                    Console.ResetColor();
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid option. Please try again.");
+                    Console.ResetColor();
+                    break;
             }
-
-
-            List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6 };
-
-            foreach (var number in numbers)
+            if (input != "4")
             {
-                Console.WriteLine($"This are the numbers {number}");
+                Console.WriteLine("\nPress Enter to continue...");
+                Console.ReadLine();
             }
+        } while (input != "4");
+    }
 
+    static void AddTask(List<string> tasks)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("Enter task: ");
+        string task = Console.ReadLine();
+        tasks.Add(task);
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"Task '{task}' added successfully!");
+        Console.ResetColor();
+    }
 
-            Console.WriteLine();
+    static void RemoveTask(List<string> tasks)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("Enter task to remove: ");
+        string taskToRemove = Console.ReadLine();
+        if (tasks.Contains(taskToRemove))
+        {
+            tasks.Remove(taskToRemove);
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Task '{taskToRemove}' removed successfully!");
+        }
+        else
+        {
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Task not found.");
+        }
+        Console.ResetColor();
+    }
 
-            names.Add("Maria");
-            names.Add("Bill");
-            names.Remove("Ana");
-            foreach (var name in names)
+    static void ViewTasks(List<string> tasks)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\nCurrent Tasks:");
+        Console.ResetColor();
+        if (tasks.Count == 0)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No tasks available.");
+            Console.ResetColor();
+        }
+        else
+        {
+            foreach (var task in tasks)
             {
-                Console.WriteLine($"Hello {name.ToUpper()}!");
+                Console.WriteLine($"- {task}");
             }
         }
-
-        List<int> fibonnacci = [1, 2,6];
-
-        var previos = fibonnacci[fibonnacci.Count - 1];
-
-        var previos2 = fibonnacci[fibonnacci.Count - 2];
-
-
-        fibonnacci.Add(previos + previos2);
-
-        foreach (var number in fibonnacci)
-        {
-            Console.WriteLine(number);
-        }
-
-        //Code to generate 20 numbers in fibonacci
-
-        //List<int> fibonnacciNumbers = [1, 2];
-
-        //for (int i = 2; i < 20; i++)
-        //{
-        //    var preview = fibonnacciNumbers[i- 1] + fibonnacciNumbers[i-2];
-        //    fibonnacciNumbers.Add(preview);
-        //}
-
-        //foreach (var item in fibonnacciNumbers)
-        //{
-        //    Console.WriteLine(item);
-        //}
-
-
     }
 }
-
