@@ -1,107 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
+using NAudio.Wave;
 
 class Program
 {
     static void Main()
     {
-        List<string> tasks = new List<string>();
-        string input;
-        do
+        // Initialize the Audio File Reader for MP3
+        using (var audioFile = new AudioFileReader("C:\\Users\\emman\\Downloads\\Music\\Chris-Brown-Tempo-Audio-(NaijaRemix.Com).mp3"))
+        using (var outputDevice = new WaveOutEvent())
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("====================================");
-            Console.WriteLine("            To-Do List             ");
-            Console.WriteLine("====================================");
-            Console.ResetColor();
-            Console.WriteLine("1. Add task");
-            Console.WriteLine("2. Remove task");
-            Console.WriteLine("3. View tasks");
-            Console.WriteLine("4. Exit");
-            Console.Write("Choose an option: ");
-            input = Console.ReadLine();
+            // Set the output device and play the file
+            outputDevice.Init(audioFile);
+            outputDevice.Play();
 
-            switch (input)
-            {
-                case "1":
-                    AddTask(tasks);
-                    break;
-                case "2":
-                    RemoveTask(tasks);
-                    break;
-                case "3":
-                    ViewTasks(tasks);
-                    break;
-                case "4":
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Exiting To-Do List. Goodbye!");
-                    Console.ResetColor();
-                    break;
-                default:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Invalid option. Please try again.");
-                    Console.ResetColor();
-                    break;
-            }
-            if (input != "4")
-            {
-                Console.WriteLine("\nPress Enter to continue...");
-                Console.ReadLine();
-            }
-        } while (input != "4");
-    }
+            Console.WriteLine("Playing music. Press any key to stop...");
+            Console.ReadKey();
 
-    static void AddTask(List<string> tasks)
-    {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.Write("Enter task: ");
-        string task = Console.ReadLine();
-        tasks.Add(task);
-        Console.ResetColor();
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"Task '{task}' added successfully!");
-        Console.ResetColor();
-    }
-
-    static void RemoveTask(List<string> tasks)
-    {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.Write("Enter task to remove: ");
-        string taskToRemove = Console.ReadLine();
-        if (tasks.Contains(taskToRemove))
-        {
-            tasks.Remove(taskToRemove);
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Task '{taskToRemove}' removed successfully!");
-        }
-        else
-        {
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Task not found.");
-        }
-        Console.ResetColor();
-    }
-
-    static void ViewTasks(List<string> tasks)
-    {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("\nCurrent Tasks:");
-        Console.ResetColor();
-        if (tasks.Count == 0)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("No tasks available.");
-            Console.ResetColor();
-        }
-        else
-        {
-            foreach (var task in tasks)
-            {
-                Console.WriteLine($"- {task}");
-            }
+            // Stop the music
+            outputDevice.Stop();
         }
     }
 }
